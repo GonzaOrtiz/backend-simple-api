@@ -31,6 +31,11 @@ namespace backend_api_sample
 
             services.AddDbContext<backend_api_sampleContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("backend_api_sampleContext")));
+
+            services.AddCors(options => options.AddPolicy("AllowWebApp",
+                                         builder => builder.AllowAnyOrigin()
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +47,7 @@ namespace backend_api_sample
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowWebApp");
             app.UseRouting();
 
             app.UseAuthorization();
